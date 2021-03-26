@@ -28,15 +28,15 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: GestureDetector(
-        onHorizontalDragUpdate: (details) {
-          if (details.delta.dx > 8) {
+        onHorizontalDragEnd: (details) {
+          if (details.primaryVelocity > 8) {
             setState(() {
               _counter--;
               if (_counter == 0) {
                 _counter = _allPostsRef.posts.length - 1;
               }
             });
-          } else if (details.delta.dx < -8) {
+          } else if (details.primaryVelocity < -8) {
             setState(() {
               _counter++;
               if (_counter == _allPostsRef.posts.length) {
