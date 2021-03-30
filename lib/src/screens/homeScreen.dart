@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
           if (details.primaryVelocity > 8) {
             setState(() {
               _counter--;
-              if (_counter == 0) {
+              if (_counter == -1) {
                 _counter = _allPostsRef.posts.length - 1;
               }
             });
@@ -63,16 +63,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   IconButton(icon: Icon(Icons.arrow_back,color: Colors.redAccent,), onPressed: () {
 
                   },),
-                  Container(   ////image
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(40.0))
-                    ),
-                    width: MediaQuery.of(context).size.width*0.5,
-                    child: Container(child: _loading? CircularProgressIndicator() : CachedNetworkImage(
+                  _loading? CircularProgressIndicator() : ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),
+                    child: CachedNetworkImage(
                       fit: BoxFit.fill,
                       imageUrl: _allPostsRef.posts[_counter].thumbnail,
                       placeholder: (context, url) => Center(child: CircularProgressIndicator()),
-                    ))
+                    ),
                   ),
                   IconButton(icon: Icon(Icons.arrow_forward,color: Colors.redAccent,), onPressed: () {
 
@@ -84,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Container(child: _loading? CircularProgressIndicator() : SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Text(_loading? 'Loading' : _allPostsRef.posts[_counter].content, textAlign: TextAlign.center, style: TextStyle(fontSize: 15,color: Colors.white)),
+                    child: Text(_loading? 'Loading' : removeAllHtmlTags(_allPostsRef.posts[_counter].content), textAlign: TextAlign.center, style: TextStyle(fontSize: 15,color: Colors.white)),
                   ),
                 ),)
               )
@@ -106,4 +103,15 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  String removeAllHtmlTags(String htmlText) {
+    RegExp exp = RegExp(
+        r"<[^>]*>",
+        multiLine: true,
+        caseSensitive: true
+    );
+
+    return htmlText.replaceAll(exp, '');
+  }
+
 }
