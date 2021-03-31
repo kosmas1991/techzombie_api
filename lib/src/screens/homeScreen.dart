@@ -1,3 +1,4 @@
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -66,22 +67,27 @@ class _HomeScreenState extends State<HomeScreen> {
                   _loading? CircularProgressIndicator() : ClipRRect(
                     borderRadius: BorderRadius.circular(20.0),
                     child: CachedNetworkImage(
-                      fit: BoxFit.fill,
-                      imageUrl: _allPostsRef.posts[_counter].thumbnail,
+                      width: MediaQuery.of(context).size.width*0.7,
+                      fit: BoxFit.fitWidth,
+                      imageUrl: _allPostsRef.posts[_counter].thumbnailImages['full'].url,
                       placeholder: (context, url) => Center(child: CircularProgressIndicator()),
                     ),
                   ),
-                  IconButton(icon: Icon(Icons.arrow_forward,color: Colors.redAccent,), onPressed: () {
-
-                  },),
+                  IconButton(icon: Icon(Icons.arrow_forward,color: Colors.redAccent,), onPressed: () {},),
                 ],
               ),
               Flexible(    ////text- context
                 flex: 6,
                 child: Container(child: _loading? CircularProgressIndicator() : SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Text(_loading? 'Loading' : removeAllHtmlTags(_allPostsRef.posts[_counter].content), textAlign: TextAlign.center, style: TextStyle(fontSize: 15,color: Colors.white)),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text(_loading? 'Loading' : removeAllHtmlTags(_allPostsRef.posts[_counter].content), textAlign: TextAlign.center, style: TextStyle(fontSize: 15,color: Colors.white)),
+                      ),
+                      Text(postIsVideoPost(_allPostsRef.posts[_counter])? 'is video' : 'not a video',style: TextStyle(color: Colors.white),),
+                      Text(_allPostsRef.gets,style: TextStyle(color: Colors.white),)
+                    ],
                   ),
                 ),)
               )
@@ -112,6 +118,19 @@ class _HomeScreenState extends State<HomeScreen> {
     );
 
     return htmlText.replaceAll(exp, '');
+  }
+
+  bool postIsVideoPost(Post post){
+    List<Category> lista = post.categories;
+    lista.forEach((element) {
+      if (element.id == 2) {
+        debugPrint('id 2 ');
+        return true;
+      } else{
+        debugPrint(element.id.toString() + element.title);
+      }
+    });
+    return false;
   }
 
 }
