@@ -86,7 +86,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Text(_loading? 'Loading' : removeAllHtmlTags(_allPostsRef.posts[_counter].content), textAlign: TextAlign.center, style: TextStyle(fontSize: 15,color: Colors.white)),
                       ),
                       Text(postIsVideoPost(_allPostsRef.posts[_counter])? 'is video' : 'not a video',style: TextStyle(color: Colors.white),),
-                      Text(_allPostsRef.gets,style: TextStyle(color: Colors.white),)
                     ],
                   ),
                 ),)
