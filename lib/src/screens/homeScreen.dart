@@ -68,6 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     borderRadius: BorderRadius.circular(20.0),
                     child: CachedNetworkImage(
                       width: MediaQuery.of(context).size.width*0.7,
+                      height: MediaQuery.of(context).size.height*0.2,
                       fit: BoxFit.fitWidth,
                       imageUrl: _allPostsRef.posts[_counter].thumbnailImages['full'].url,
                       placeholder: (context, url) => Center(child: CircularProgressIndicator()),
